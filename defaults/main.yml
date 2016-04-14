@@ -125,6 +125,10 @@ neutron_plugins:
     plugin_core: neutron.plugins.nuage.plugin.NuagePlugin
     plugin_ini: plugins/nuage/nuage.ini
     plugin_conf_ini_overrides: "{{ neutron_nuage_conf_ini_overrides }}"
+  midonet:
+    plugin_core: midonet.neutron.plugin.MidonetPluginV2
+    plugin_ini: plugins/midonet/midonet_plugin.ini
+    plugin_conf_ini_overrides: "{{ neutron_midonet_conf_ini_overrides }}"
 
 neutron_services:
  neutron-dhcp-agent:
@@ -416,12 +420,17 @@ neutron_proprietary_nuage_pip_packages:
   - nuage-openstack-neutronclient
   - nuagenetlib
 
+neutron_optional_midonet_pip_packages:
+  - networking-midonet==1.0.0
+
 ## Tunable overrides
 neutron_neutron_conf_overrides: {}
 neutron_ml2_conf_ini_overrides: {}
 neutron_plumgrid_conf_ini_overrides: {}
 neutron_plumlib_ini_overrides: {}
 neutron_nuage_conf_ini_overrides: {}
+neutron_midonet_conf_ini_overrides: {}
+neutron_midonet_ini_overrides: {}
 neutron_dhcp_agent_ini_overrides: {}
 neutron_api_paste_ini_overrides: {}
 neutron_rootwrap_conf_overrides: {}

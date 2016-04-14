@@ -1,0 +1,13 @@
+# Config file for Midonet Plugin
+
+[DATABASE]
+sql_connection = mysql+mysqlconnector://{{ neutron_galera_user }}:{{ neutron_container_mysql_password }}@{{ neutron_galera_address }}/{{ neutron_galera_database }}?charset=utf8
+sql_max_retries = 100
+
+[MIDONET]
+midonet_uri = http://{{ groups["midonet_cluster_all"][0] }}:8181/midonet-api
+username = {{ neutron_service_user_name  }}
+password = {{ neutron_service_password }}
+project_id = {{ neutron_service_project_name }}
+auth_url = {{ keystone_service_adminurl }}
+provider_router_id =
