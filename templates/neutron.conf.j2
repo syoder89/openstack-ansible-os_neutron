@@ -19,7 +19,7 @@ vlan_transparent = False
 
 # Plugins
 core_plugin = {{ neutron_plugin_core }}
-{% if (neutron_plugin_type != 'plumgrid' and neutron_plugin_type != 'nuage') %}
+{% if (neutron_plugin_type != 'plumgrid' and neutron_plugin_type != 'nuage' and neutron_plugin_type != 'midonet') %}
 service_plugins = {{ neutron_plugin_loaded_base }}
 {% endif %}
 
@@ -48,6 +48,7 @@ router_distributed = False
 # Agents
 agent_down_time = {{ neutron_agent_down_time }}
 
+{% if neutron_services['neutron-dhcp-agent']['service_en'] | bool %}
 {% set num_agent = groups[neutron_services['neutron-dhcp-agent']['group']] | length %}
 {% if neutron_plugin_type == 'ml2' and num_agent >= 2 %}
 {% if neutron_services['neutron-linuxbridge-agent']['service_en'] | bool %}
@@ -63,6 +64,7 @@ max_l3_agents_per_router = {{ max_l3_router }}
 ha_network_type = {{ neutron_provider_networks.network_mappings_list[0].split(':')[0] }}
 ha_network_physical_name = {{ neutron_provider_networks.network_mappings_list[0].split(':')[-1] }}
 
+{% endif %}
 {% endif %}
 {% endif %}
 
@@ -167,7 +169,7 @@ service_provider = LOADBALANCERV2:Haproxy:neutron_lbaas.drivers.haproxy.plugin_d
 
 {% endif %}
 
-{% if neutron_fwaas | bool and neutron_plugin_type != 'plumgrid' %}
+{% if neutron_fwaas | bool and neutron_plugin_type != 'plumgrid' and neutron_plugin_type != 'midonet' %}
 [fwaas]
 enabled = true
 driver = neutron.services.firewall.drivers.linux.iptables_fwaas.IptablesFwaasDriver
