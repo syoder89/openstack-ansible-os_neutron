@@ -420,8 +420,12 @@ neutron_proprietary_nuage_pip_packages:
   - nuage-openstack-neutronclient
   - nuagenetlib
 
-neutron_optional_midonet_pip_packages:
-  - networking-midonet==1.0.0
+#neutron_optional_midonet_pip_packages:
+#  - networking-midonet==1.0.0
+
+neutron_midonet_apt_packages:
+ - python-networking-midonet
+ - python-mysql.connector
 
 ## Tunable overrides
 neutron_neutron_conf_overrides: {}
