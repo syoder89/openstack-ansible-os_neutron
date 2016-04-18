@@ -421,8 +421,8 @@ neutron_proprietary_nuage_pip_packages:
   - nuagenetlib
 
 neutron_optional_midonet_pip_packages:
-  - "git+https://github.com/midonet/midonet/#egg=python-midonetclient&subdirectory=python-midonetclient"
-  - networking-midonet==1.0.0
+  - 'git+https://github.com/midonet/midonet/#egg=midonetclient&subdirectory=python-midonetclient'
+  - networking-midonet
 
 #neutron_midonet_apt_packages:
 # - python-networking-midonet
