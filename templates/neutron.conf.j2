@@ -66,6 +66,8 @@ ha_network_physical_name = {{ neutron_provider_networks.network_mappings_list[0]
 
 {% endif %}
 {% endif %}
+{% else %}
+{% set num_agent = 0 %}
 {% endif %}
 
 # API
