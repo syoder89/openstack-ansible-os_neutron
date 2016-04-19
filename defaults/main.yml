@@ -420,7 +420,6 @@ neutron_proprietary_nuage_pip_packages:
   - nuage-openstack-neutronclient
   - nuagenetlib
 
-<<<<<<< HEAD
 neutron_optional_midonet_pip_packages:
   - 'git+https://github.com/midonet/midonet/#egg=midonetclient&subdirectory=python-midonetclient'
   - networking-midonet
@@ -429,19 +428,14 @@ neutron_optional_midonet_pip_packages:
 # - python-networking-midonet
 # - python-mysql.connector
 
-=======
->>>>>>> 946de191443084465dc032fdab514f3c9926511b
 ## Tunable overrides
 neutron_neutron_conf_overrides: {}
 neutron_ml2_conf_ini_overrides: {}
 neutron_plumgrid_conf_ini_overrides: {}
 neutron_plumlib_ini_overrides: {}
 neutron_nuage_conf_ini_overrides: {}
-<<<<<<< HEAD
 neutron_midonet_conf_ini_overrides: {}
 neutron_midonet_ini_overrides: {}
-=======
->>>>>>> 946de191443084465dc032fdab514f3c9926511b
 neutron_dhcp_agent_ini_overrides: {}
 neutron_api_paste_ini_overrides: {}
 neutron_rootwrap_conf_overrides: {}
