@@ -13,7 +13,8 @@
 # limitations under the License.
 
 - name: Install cloud repo for packages
-  apt_repository: repo={{ neutron_apt_cloud_repo }}
+  apt_repository:
+    repo: "{{ neutron_apt_cloud_repo }}"
   when:
     - not neutron_venv_enabled | bool
     - inventory_hostname in groups[neutron_services['neutron-server']['group']]
@@ -22,7 +23,9 @@
     - neutron-apt-packages
 
 - name: Install cloud repo key
-  apt_key: keyserver={{ neutron_apt_cloud_keyserver }} id={{ neutron_apt_cloud_key_id }}
+  apt_key:
+    keyserver: "{{ neutron_apt_cloud_keyserver }}"
+    id: "{{ neutron_apt_cloud_key_id }}"
   when:
     - not neutron_venv_enabled | bool
     - inventory_hostname in groups[neutron_services['neutron-server']['group']]
