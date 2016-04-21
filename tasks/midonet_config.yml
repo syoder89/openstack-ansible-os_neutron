@@ -12,98 +12,37 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#- name: Install networking-midonet
-#  apt:
-#    pkg: "{{ item }}"
-#    state: latest
-#  with_items: neutron_midonet_apt_packages
-#  register: install_packages
-#  until: install_packages|success
-#  retries: 5
-#  delay: 2
-#  when:
-#    - not neutron_venv_enabled | bool
-#    - inventory_hostname in groups[neutron_services['neutron-server']['group']]
-#  tags:
-#    - neutron-midonet-install
-#    - neutron-apt-packages
-
-- name: Install midonet pip packages (venv)
-  pip:
-    name: "{{ item }}"
-    state: present
-    virtualenv: "{{ neutron_venv_bin | dirname }}"
-    virtualenv_site_packages: "no"
-    extra_args: "{{ pip_install_options|default('') }}"
-  register: install_packages
-  until: install_packages|success
-  ignore_errors: True
-  retries: 5
-  delay: 2
-  with_items:
-    - "{{ neutron_optional_midonet_pip_packages }}"
-  when:
-    - neutron_venv_enabled | bool
-    - inventory_hostname in groups[neutron_services['neutron-server']['group']]
-  tags:
-    - neutron-install
-    - neutron-pip-packages
-
-- name: Install midonet pip packages fall back (venv)
-  pip:
-    name: "{{ item }}"
-    state: present
-    virtualenv: "{{ neutron_venv_bin | dirname }}"
-    virtualenv_site_packages: "no"
-    extra_args: "--isolated"
-  when: install_packages|failed
-  register: install_packages_fall_back
-  until: install_packages_fall_back|success
-  retries: 5
-  delay: 2
-  with_items:
-    - "{{ neutron_optional_midonet_pip_packages }}"
-  when:
-    - neutron_venv_enabled | bool
-    - inventory_hostname in groups[neutron_services['neutron-server']['group']]
-  tags:
-    - neutron-install
-    - neutron-pip-packages
-
-- name: Install midonet pip packages (no venv)
-  pip:
-    name: "{{ item }}"
-    state: present
-    extra_args: "{{ pip_install_options|default('') }}"
-  register: install_packages
-  until: install_packages|success
-  retries: 5
-  delay: 2
-  ignore_errors: True
-  with_items:
-    - "{{ neutron_optional_midonet_pip_packages }}"
+- name: Install cloud repo for packages
+  apt_repository: repo={{ neutron_apt_cloud_repo }}
   when:
     - not neutron_venv_enabled | bool
     - inventory_hostname in groups[neutron_services['neutron-server']['group']]
   tags:
-    - neutron-install
-    - neutron-pip-packages
+    - neutron-midonet-install
+    - neutron-apt-packages
 
-- name: Install midonet pip packages fall back (no venv)
-  pip:
-    name: "{{ item }}"
-    state: present
-    extra_args: "--isolated"
-  when: install_packages|failed
-  register: install_packages_fall_back
-  until: install_packages_fall_back|success
-  retries: 5
-  delay: 2
-  with_items:
-    - "{{ neutron_optional_midonet_pip_packages }}"
+- name: Install cloud repo key
+  apt_key: keyserver={{ neutron_apt_cloud_keyserver }} id={{ neutron_apt_cloud_key_id }}
   when:
     - not neutron_venv_enabled | bool
     - inventory_hostname in groups[neutron_services['neutron-server']['group']]
   tags:
-    - neutron-install
-    - neutron-pip-packages
+    - neutron-midonet-install
+    - neutron-apt-packages
+
+- name: Install networking-midonet
+  apt:
+    pkg: "{{ item }}"
+    state: latest
+    force: yes
+  with_items: neutron_midonet_apt_packages
+  register: install_packages
+  until: install_packages|success
+  retries: 5
+  delay: 2
+  when:
+    - not neutron_venv_enabled | bool
+    - inventory_hostname in groups[neutron_services['neutron-server']['group']]
+  tags:
+    - neutron-midonet-install
+    - neutron-apt-packages

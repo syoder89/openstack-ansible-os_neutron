@@ -23,6 +23,9 @@ verbose: True
 ## APT Cache options
 cache_timeout: 600
 
+neutron_apt_cloud_repo: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/mitaka main"
+neutron_apt_cloud_keyserver: keyserver.ubuntu.com
+neutron_apt_cloud_key_id: 5EDB1B62EC4926EA
 neutron_git_repo: https://git.openstack.org/openstack/neutron
 neutron_git_install_branch: stable/mitaka
 
@@ -126,7 +129,7 @@ neutron_plugins:
     plugin_ini: plugins/nuage/nuage.ini
     plugin_conf_ini_overrides: "{{ neutron_nuage_conf_ini_overrides }}"
   midonet:
-    plugin_core: midonet.neutron.plugin.MidonetPluginV2
+    plugin_core: midonet.neutron.plugin_v2.MidonetPluginV2
     plugin_ini: plugins/midonet/midonet_plugin.ini
     plugin_conf_ini_overrides: "{{ neutron_midonet_conf_ini_overrides }}"
 
@@ -420,13 +423,17 @@ neutron_proprietary_nuage_pip_packages:
   - nuage-openstack-neutronclient
   - nuagenetlib
 
-neutron_optional_midonet_pip_packages:
-  - 'git+https://github.com/midonet/midonet/#egg=midonetclient&subdirectory=python-midonetclient'
-  - networking-midonet
+#neutron_optional_midonet_pip_packages:
+#  - 'git+https://github.com/midonet/midonet/#egg=midonetclient&subdirectory=python-midonetclient'
+#  - networking-midonet
 
-#neutron_midonet_apt_packages:
-# - python-networking-midonet
-# - python-mysql.connector
+neutron_midonet_apt_packages:
+ - python-neutron
+ - python-neutron-lbaas
+ - python-neutron-fwaas
+ - python-networking-midonet
+ - python-midonetclient
+ - python-mysql.connector
 
 ## Tunable overrides
 neutron_neutron_conf_overrides: {}
