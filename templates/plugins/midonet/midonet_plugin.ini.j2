@@ -5,7 +5,7 @@ sql_connection = mysql+mysqlconnector://{{ neutron_galera_user }}:{{ neutron_con
 sql_max_retries = 100
 
 [MIDONET]
-midonet_uri = http://{{ groups["midonet_cluster_all"][0] }}:8181/midonet-api
+midonet_uri = http://{{ midonet_cluster_ip }}:{{ midonet_cluster_port }}/midonet-api
 username = {{ neutron_service_user_name  }}
 password = {{ neutron_service_password }}
 project_id = {{ neutron_service_project_name }}
